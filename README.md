@@ -43,7 +43,7 @@ Docker Compose настройка включает следующие серви
 ### Настройка
 
 - Конфигурация Prometheus находится в `./prometheus/prometheus.yml`
-- Данные OpenSearch сохраняются в томе `opensearch-data1`
+- Данные OpenSearch сохраняются в томе `opensearch-data`
 - Переменные окружения могут быть изменены в файле docker-compose.yml
 
 ### Устранение неполадок
