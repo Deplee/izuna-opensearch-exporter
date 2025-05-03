@@ -1,0 +1,14 @@
+scrape_configs:
+  - job_name: 'opensearch'
+    scrape_interval: 30s
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['opensearch-exporter:80']
+
+# or 
+
+- job_name: 'opensearch'
+  scrape_interval: 30s
+  metrics_path: '/metrics'
+  static_configs:
+    - targets: ['localhost:8080']
