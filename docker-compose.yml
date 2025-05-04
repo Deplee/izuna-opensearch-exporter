@@ -14,4 +14,6 @@ services:
     container_name: opensearch-exporter-metrics
     ports:
       - "9090:9090"
+    environment:
+      - OPENSEARCH_URL=http://opensearch:9200
     restart: unless-stopped
