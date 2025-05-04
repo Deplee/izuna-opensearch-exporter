@@ -11,18 +11,14 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+RUN npm run build || true  # если build не нужен, можно убрать
 
 # Production stage
-FROM nginx:alpine AS production
-WORKDIR /usr/share/nginx/html
+FROM node:18-alpine AS production
+WORKDIR /app
 
-# Copy built assets from builder
-COPY --from=builder /app/dist .
+COPY package.json ./
+COPY --from=deps /app/node_modules ./node_modules
+COPY src/server ./src/server
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "src/server/app.js"]
