@@ -27,7 +27,7 @@ services:
           cpus: '0.25'
           memory: 256M
 
-  metrics:
+  opensearch-exporter-metrics:
     build:
       context: .
       dockerfile: Dockerfile.metrics
@@ -35,13 +35,11 @@ services:
     container_name: opensearch-exporter-metrics
     ports:
       - "9091:9090"
-    environment:
-      - FRONTEND_URL=http://opensearch-exporter:80
     networks:
       - app-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/metrics"]
       interval: 30s
       timeout: 10s
       retries: 3
