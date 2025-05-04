@@ -8,14 +8,11 @@ export async function checkHostAvailability(host: OpenSearchHost): Promise<boole
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
-      'X-Skip-Cert-Validation': 'true',
     };
     
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
-      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
-      headers["X-Skip-Cert-Validation"] = "true";
     }
     
     // Удалены credentials: 'include', так как это может вызывать проблемы при CORS
@@ -24,7 +21,6 @@ export async function checkHostAvailability(host: OpenSearchHost): Promise<boole
       headers,
       // Настройки для CORS запросов
       mode: 'cors',
-      referrerPolicy: "no-referrer",
     });
     
     return response.ok;
@@ -41,15 +37,11 @@ export async function fetchClusterHealth(host: OpenSearchHost): Promise<ClusterH
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
-      'X-Skip-Cert-Validation': 'true',
-      
     };
     
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
-      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
-      headers["X-Skip-Cert-Validation"] = "true";
     }
     
     // Удалены credentials: 'include'
@@ -57,7 +49,6 @@ export async function fetchClusterHealth(host: OpenSearchHost): Promise<ClusterH
       method: 'GET',
       headers,
       mode: 'cors',
-      referrerPolicy: "no-referrer",
     });
     
     if (!response.ok) {
@@ -87,14 +78,11 @@ export async function fetchNodeStats(host: OpenSearchHost): Promise<NodeStats[]>
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
-      'X-Skip-Cert-Validation': 'true',
     };
     
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
-      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
-      headers["X-Skip-Cert-Validation"] = "true";
     }
     
     // Удалены credentials: 'include'
@@ -102,7 +90,6 @@ export async function fetchNodeStats(host: OpenSearchHost): Promise<NodeStats[]>
       method: 'GET',
       headers,
       mode: 'cors',
-      referrerPolicy: "no-referrer",
     });
     
     if (!response.ok) {
@@ -166,9 +153,6 @@ export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterSt
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
-      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
-      headers["X-Skip-Cert-Validation"] = "true";
-
     }
     
     // Удалены credentials: 'include'
@@ -176,7 +160,6 @@ export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterSt
       method: 'GET',
       headers,
       mode: 'cors',
-      referrerPolicy: "no-referrer",
     });
     
     if (!response.ok) {
