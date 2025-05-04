@@ -49,7 +49,7 @@ const MetricsEndpoint: React.FC = () => {
           setMetricsText('# Failed to fetch metrics from OpenSearch\n');
         }
       } catch (error) {
-        setMetricsText(# Error: ${error}\n);
+        setMetricsText(`# Error: ${error}\n`);
       }
     };
   
