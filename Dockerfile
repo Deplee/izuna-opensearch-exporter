@@ -2,9 +2,9 @@
 FROM node:18-alpine AS deps
 WORKDIR /app
 COPY package.json ./
-RUN npm install --no-package-lock --legacy-peer-deps express@4.18.3 && \
-    npm install --no-package-lock --legacy-peer-deps prom-client@15.1.0 && \
-    npm install --no-package-lock --legacy-peer-deps axios@1.6.7
+RUN npm install --verbose --no-package-lock --legacy-peer-deps express@4.18.3 && \
+    npm install --verbose --no-package-lock --legacy-peer-deps prom-client@15.1.0 && \
+    npm install --verbose --no-package-lock --legacy-peer-deps axios@1.6.7
 
 # Build stage
 FROM node:18-alpine AS builder
