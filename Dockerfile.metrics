@@ -5,8 +5,9 @@ WORKDIR /app
 # Копирование package.json
 COPY package.json ./
 
-# Установка только необходимых зависимостей
-RUN npm install express prom-client
+# Установка только необходимых зависимостей с таймаутом
+RUN npm config set fetch-timeout 300000 && \
+    npm install --no-package-lock express prom-client
 
 # Production stage
 FROM node:18-alpine AS production
