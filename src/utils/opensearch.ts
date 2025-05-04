@@ -13,6 +13,7 @@ export async function checkHostAvailability(host: OpenSearchHost): Promise<boole
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
+      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
     }
     
     // Удалены credentials: 'include', так как это может вызывать проблемы при CORS
