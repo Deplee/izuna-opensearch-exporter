@@ -1,24 +1,17 @@
 import express from 'express';
-import { Registry, Gauge } from 'prom-client';
+import { generatePrometheusMetricsOutput } from './metricsEndpoint'; // Импорт из твоего файла
+// Импортируй или получай актуальные clusterStats из своего приложения!
+import { getClusterStats } from './yourClusterStatsSource'; // <-- замени на реальный источник
 
 const app = express();
-const register = new Registry();
-
-const exampleGauge = new Gauge({
-    name: 'example_metric',
-    help: 'Example metric',
-    registers: [register],
-});
-
-exampleGauge.set(1);
 
 app.get('/metrics', async (req, res) => {
-    try {
-        res.set('Content-Type', register.contentType);
-        res.end(await register.metrics());
-    } catch (error) {
-        res.status(500).end(error);
-    }
+    // TODO: Получи реальные clusterStats из своего приложения или источника
+    const clusterStats = null; // <-- замени на актуальные данные!
+    const metricsText = generatePrometheusMetricsOutput(clusterStats);
+
+    res.set('Content-Type', 'text/plain; charset=utf-8');
+    res.send(metricsText);
 });
 
 const port = process.env.PORT || 9090;
