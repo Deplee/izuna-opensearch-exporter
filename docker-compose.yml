@@ -1,5 +1,4 @@
-version: '3.8'
-
+# version: '3.8' # - if docker compose not v2
 services:
   opensearch-exporter:
     build: .
@@ -7,7 +6,3 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
-
-networks:
-  default:
-    driver: bridge
