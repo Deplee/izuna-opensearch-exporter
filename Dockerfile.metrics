@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine AS base
 
 WORKDIR /app
 
@@ -11,5 +11,7 @@ RUN npm install
 # Копирование исходного кода
 COPY . .
 
-# Запуск сервера метрик
+# Production stage
+FROM base AS production
+
 CMD ["node", "src/server/metrics-server.js"]
