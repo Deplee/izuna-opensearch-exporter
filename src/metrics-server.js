@@ -1,5 +1,5 @@
-const express = require('express');
-const { Registry, Gauge } = require('prom-client');
+import express from 'express';
+import { Registry, Gauge } from 'prom-client';
 
 const app = express();
 const register = new Registry();
