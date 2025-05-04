@@ -3,7 +3,7 @@ FROM node:18-alpine AS deps
 WORKDIR /app
 
 # Установка только express и prom-client без дополнительных зависимостей
-RUN npm install --no-package-lock --no-optional express@4.18.3 prom-client@15.1.0
+RUN npm install --no-package-lock --verbose --no-optional express@4.18.3 prom-client@15.1.0
 
 # Production stage
 FROM node:18-alpine AS production
