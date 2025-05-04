@@ -1,0 +1,15 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Копирование package.json и package-lock.json
+COPY package*.json ./
+
+# Установка зависимостей
+RUN npm install
+
+# Копирование исходного кода
+COPY . .
+
+# Запуск сервера метрик
+CMD ["npm", "run", "metrics"] 

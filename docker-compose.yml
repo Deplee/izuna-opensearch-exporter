@@ -8,9 +8,10 @@ services:
     restart: unless-stopped
 
   metrics:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.metrics
     container_name: opensearch-exporter-metrics
-    command: node src/metrics-server.js
     ports:
       - "9090:9090"
     restart: unless-stopped
