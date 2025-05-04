@@ -294,8 +294,8 @@ curl -vk -u admin:admin "https://172.22.217.113:9200/_nodes/stats/os,jvm?pretty"
 
   * `OpenSearch JS Client` (@opensearch-project/opensearch) — для запросов к кластеру
   * `Axios` — HTTP-клиент
-  * `Prometheus`-совместимый экспорт метрик (ваш кастомный реализация)
-  * `shadcn/ui` — компоненты интерфейса (видно по структуре components/ui)
+  * `Prometheus` — совместимый экспорт метрик
+  * `shadcn/ui` — компоненты интерфейса
 
 3. Инфраструктура
 
