@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json ./
 
 # Устанавливаем только необходимые пакеты одним RUN
-RUN npm install --no-package-lock express@4.18.3 prom-client@15.1.0 axios@1.6.7
+RUN npm install --no-package-lock express@4.18.3 prom-client@15.1.0
 
 # Production stage
 FROM node:18-alpine AS production
@@ -21,4 +21,4 @@ COPY --from=deps /app/node_modules ./node_modules
 # Копирование серверной части
 COPY src/server ./src/server
 
-CMD ["node", "src/server/metrics-server.js"]
+CMD ["node", "src/server/app-metrics-server.js"]
