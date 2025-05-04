@@ -22,6 +22,7 @@ export async function checkHostAvailability(host: OpenSearchHost): Promise<boole
       headers,
       // Настройки для CORS запросов
       mode: 'cors',
+      referrerPolicy: "no-referrer",
     });
     
     return response.ok;
@@ -43,6 +44,7 @@ export async function fetchClusterHealth(host: OpenSearchHost): Promise<ClusterH
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
+      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
     }
     
     // Удалены credentials: 'include'
@@ -50,6 +52,7 @@ export async function fetchClusterHealth(host: OpenSearchHost): Promise<ClusterH
       method: 'GET',
       headers,
       mode: 'cors',
+      referrerPolicy: "no-referrer",
     });
     
     if (!response.ok) {
@@ -84,6 +87,7 @@ export async function fetchNodeStats(host: OpenSearchHost): Promise<NodeStats[]>
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
+      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
     }
     
     // Удалены credentials: 'include'
@@ -91,6 +95,7 @@ export async function fetchNodeStats(host: OpenSearchHost): Promise<NodeStats[]>
       method: 'GET',
       headers,
       mode: 'cors',
+      referrerPolicy: "no-referrer",
     });
     
     if (!response.ok) {
@@ -154,6 +159,7 @@ export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterSt
     if (host.username && host.password) {
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
+      headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
     }
     
     // Удалены credentials: 'include'
@@ -161,6 +167,7 @@ export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterSt
       method: 'GET',
       headers,
       mode: 'cors',
+      referrerPolicy: "no-referrer",
     });
     
     if (!response.ok) {
