@@ -1,4 +1,4 @@
-FROM node:20-alpine AS deps
+FROM node:18-alpine AS deps
 
 WORKDIR /app
 
@@ -8,26 +8,14 @@ COPY package.json ./
 # Установка только необходимых зависимостей
 RUN npm install express prom-client
 
-# Build stage
-FROM node:20-alpine AS builder
-WORKDIR /app
-
-# Копирование только серверной части
-COPY src/server ./src/server
-COPY tsconfig.metrics.json ./tsconfig.json
-
-# Установка TypeScript и компиляция
-RUN npm install typescript && \
-    npx tsc
-
 # Production stage
-FROM node:20-alpine AS production
+FROM node:18-alpine AS production
 WORKDIR /app
 
 # Копирование только production зависимостей
 COPY --from=deps /app/node_modules ./node_modules
 
-# Копирование собранного приложения
-COPY --from=builder /app/dist ./dist
+# Копирование серверной части
+COPY src/server ./src/server
 
-CMD ["node", "dist/metrics-server.js"]
+CMD ["node", "src/server/metrics-server.js"]
