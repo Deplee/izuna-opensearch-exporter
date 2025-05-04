@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile.metrics
     container_name: opensearch-exporter-metrics
     ports:
-      - "9090:9090"
+      - "9091:9090"
     environment:
       - FRONTEND_URL=http://opensearch-exporter:80
     networks:
