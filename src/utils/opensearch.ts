@@ -8,6 +8,7 @@ export async function checkHostAvailability(host: OpenSearchHost): Promise<boole
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
+      'X-Skip-Cert-Validation': 'true',
     };
     
     if (host.username && host.password) {
@@ -40,6 +41,8 @@ export async function fetchClusterHealth(host: OpenSearchHost): Promise<ClusterH
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
+      'X-Skip-Cert-Validation': 'true',
+      
     };
     
     if (host.username && host.password) {
@@ -84,6 +87,7 @@ export async function fetchNodeStats(host: OpenSearchHost): Promise<NodeStats[]>
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
+      'X-Skip-Cert-Validation': 'true',
     };
     
     if (host.username && host.password) {
