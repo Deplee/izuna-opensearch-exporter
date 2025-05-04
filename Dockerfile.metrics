@@ -5,8 +5,10 @@ WORKDIR /app
 # Копирование package.json
 COPY package.json ./
 
-# Установка только express и prom-client без дополнительных зависимостей
-RUN npm install --no-package-lock --verbose --no-optional express@4.18.3 prom-client@15.1.0 axios@1.6.7
+# Установка пакетов по одному
+RUN npm install --no-package-lock --legacy-peer-deps express@4.18.3 && \
+    npm install --no-package-lock --legacy-peer-deps prom-client@15.1.0 && \
+    npm install --no-package-lock --legacy-peer-deps axios@1.6.7
 
 # Production stage
 FROM node:18-alpine AS production
