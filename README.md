@@ -315,3 +315,21 @@ curl -vk -u admin:admin "https://172.22.217.113:9200/_nodes/stats/os,jvm?pretty"
   * Парсинг статистики узлов (_nodes/stats)
   * Конвертация в Prometheus-метрики
   * Визуализация через React-компоненты
+
+
+# Screenshots
+
+1. **Dashboard** 
+
+![first_screen](screenshots/image_1.png)
+![second_screen](screenshots/image_2.png)
+
+2. **Configuration**
+
+![third_screen](screenshots/image_3.png)
+
+3. **Metrics**
+
+![fourth_screen](screenshots/image_4.png)
+![fifth_screen](screenshots/image_5.png)
+
