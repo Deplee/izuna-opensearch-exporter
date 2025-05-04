@@ -6,3 +6,11 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
+
+  metrics:
+    build: .
+    container_name: opensearch-exporter-metrics
+    command: node src/metrics-server.js
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
