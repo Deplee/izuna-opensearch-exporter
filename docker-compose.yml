@@ -1,4 +1,6 @@
 # version: '3.8' # - if docker compose not v2
+version: '3.8'
+
 services:
   opensearch-exporter:
     build: .
@@ -6,3 +8,16 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
+
+  opensearch-exporter-metrics:
+    build:
+      context: .
+      dockerfile: Dockerfile.metrics
+    container_name: opensearch-exporter-metrics
+    ports:
+      - "9091:9090"
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
