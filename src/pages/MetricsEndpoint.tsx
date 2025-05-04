@@ -18,7 +18,8 @@ const MetricsEndpoint: React.FC = () => {
 
       try {
         // Get metrics from first host
-        const stats = await fetchClusterStats(hosts[0]);
+        // const stats = await fetchClusterStats(hosts[0]);
+        const stats = await fetchClusterStats(hosts);
         
         if (stats) {
           const formattedMetrics = generatePrometheusMetricsOutput(stats);

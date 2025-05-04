@@ -15,8 +15,8 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/Deplee/opensearch-exporter.git
-   cd opensearch-exporter
+   git clone https://github.com/Deplee/izuna-opensearch-exporter.git
+   cd izuna-opensearch-exporter
    ```
 
 2. Запустите контейнеры:
@@ -164,9 +164,9 @@ server {
 version: '3.8'
 
 services:
-  opensearch-exporter:
+  izuna-opensearch-exporter:
     build: .
-    container_name: opensearch-exporter
+    container_name: izuna-opensearch-exporter
     ports:
       - "8080:80"
     restart: unless-stopped
@@ -194,7 +194,7 @@ scrape_configs:
     scrape_interval: 30s
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['opensearch-exporter:80']
+      - targets: ['localhost:8080']
 ```
 
 ## Важные замечания
@@ -243,3 +243,31 @@ scrape_configs:
    ```bash
    npm run build
    ```
+
+
+
+# Curl Tools
+
+Cluster Health
+
+```
+curl -vku "admin:admin" -XGET "https://172.22.217.113:9200/_cluster/health?pretty"
+```
+
+Shards Info
+
+```
+curl -vku "admin:admin" -XGET "https://172.22.217.113:9200/_cluster/health?pretty" | grep -E "active_shards|relocating_shards|unassigned_shards"
+```
+
+Documents Count
+
+```
+curl -vku "admin:admin" -XGET "https://172.22.217.113:9200/_cluster/stats?filter_path=indices.docs.count" | jq .indices.docs.count
+```
+
+Total Size
+
+```
+curl -vku "admin:admin" -XGET "https://172.22.217.113:9200/_cluster/stats?human&filter_path=indices.store.size" | jq .indices.store.size
+```

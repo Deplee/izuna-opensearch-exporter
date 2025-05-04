@@ -40,6 +40,46 @@ services:
     networks:
       - opensearch-net
 
+  opensearch-1:
+    image: opensearchproject/opensearch:2.11.1
+    container_name: opensearch-1
+    environment:
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+
+      # Настройки безопасности
+      - "DISABLE_SECURITY_PLUGIN=false"
+      - "plugins.security.ssl.http.enabled=true"
+      - "plugins.security.ssl.transport.enabled=true"
+
+      # CORS настройки
+      - "http.cors.enabled=true"
+      - "http.cors.allow-origin=*"
+      - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+
+      # Настройки single-node
+      - "discovery.type=single-node"
+
+      # Демо-конфигурация (используйте false для production)
+      - "DISABLE_INSTALL_DEMO_CONFIG=false"
+      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=admin" # Стандартный пароль
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    ports:
+      - "9201:9200"
+      - "9601:9600"
+    networks:
+      - opensearch-net
+
 volumes:
   opensearch-data:
 
