@@ -5,6 +5,8 @@ services:
     container_name: opensearch-exporter
     ports:
       - "8080:80"
+    networks:
+      - app-network
     restart: unless-stopped
 
   metrics:
@@ -15,5 +17,11 @@ services:
     ports:
       - "9090:9090"
     environment:
-      - FRONTEND_URL=http://opensearch-exporter:8080
+      - FRONTEND_URL=http://opensearch-exporter:80
+    networks:
+      - app-network
     restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
