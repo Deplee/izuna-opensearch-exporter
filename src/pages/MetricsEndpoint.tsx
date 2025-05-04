@@ -34,7 +34,6 @@ const MetricsEndpoint: React.FC = () => {
 
     getMetrics();
   
-
   // This will render plain text for Prometheus to scrape
   return (
     <pre style={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
