@@ -1,3 +1,23 @@
+// {
+//   "files": [],
+//   "references": [
+//     { "path": "./tsconfig.app.json" },
+//     { "path": "./tsconfig.node.json" }
+//   ],
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./src/*"]
+//     },
+//     "noImplicitAny": false,
+//     "noUnusedParameters": false,
+//     "skipLibCheck": true,
+//     "allowJs": true,
+//     "noUnusedLocals": false,
+//     "strictNullChecks": false
+//   }
+// }
+
 {
   "files": [],
   "references": [
@@ -9,11 +29,15 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "jsx": "react-jsx",  // Добавьте эту строку
+    "types": ["vite/client"],  // Добавьте для поддержки Vite
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "skipLibCheck": true,
     "allowJs": true,
     "noUnusedLocals": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "esModuleInterop": true,  // Добавьте для корректного импорта
+    "moduleResolution": "node"  // Добавьте для разрешения модулей
   }
 }
