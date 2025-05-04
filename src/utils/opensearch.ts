@@ -14,6 +14,7 @@ export async function checkHostAvailability(host: OpenSearchHost): Promise<boole
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
       headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
+      headers["X-Skip-Cert-Validation"] = "true";
     }
     
     // Удалены credentials: 'include', так как это может вызывать проблемы при CORS
@@ -45,6 +46,7 @@ export async function fetchClusterHealth(host: OpenSearchHost): Promise<ClusterH
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
       headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
+      headers["X-Skip-Cert-Validation"] = "true";
     }
     
     // Удалены credentials: 'include'
@@ -88,6 +90,7 @@ export async function fetchNodeStats(host: OpenSearchHost): Promise<NodeStats[]>
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
       headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
+      headers["X-Skip-Cert-Validation"] = "true";
     }
     
     // Удалены credentials: 'include'
@@ -160,6 +163,8 @@ export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterSt
       const encodedCredentials = btoa(`${host.username}:${host.password}`);
       headers['Authorization'] = `Basic ${encodedCredentials}`;
       headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Skip-Cert-Validation";
+      headers["X-Skip-Cert-Validation"] = "true";
+
     }
     
     // Удалены credentials: 'include'
