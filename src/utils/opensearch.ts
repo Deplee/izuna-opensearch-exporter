@@ -243,23 +243,24 @@ export function formatBytes(bytes: number, decimals = 2): string {
 
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  const value = (bytes / Math.pow(k, i)).toFixed(dm);
+  return `${value} ${sizes[i]}`;
 }
+
 
 // Функция для форматирования длительности в миллисекундах
 export function formatDuration(ms: number): string {
-  const seconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
+  const seconds = Math.floor(ms / 1000) % 60;
+  const minutes = Math.floor(ms / (1000 * 60)) % 60;
+  const hours = Math.floor(ms / (1000 * 60 * 60)) % 24;
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24));
 
-  if (days > 0) {
-    return `${days}д ${hours % 24}ч`;
-  } else if (hours > 0) {
-    return `${hours}ч ${minutes % 60}м`;
-  } else if (minutes > 0) {
-    return `${minutes}м ${seconds % 60}с`;
-  } else {
-    return `${seconds}с`;
-  }
+  const parts = [];
+  if (days > 0) parts.push(`${days}д`);
+  if (hours > 0) parts.push(`${hours}ч`);
+  if (minutes > 0) parts.push(`${minutes}м`);
+  if (seconds > 0 || parts.length === 0) parts.push(`${seconds}с`);
+
+  return parts.join(' ');
 }
+

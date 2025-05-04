@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Tabs,
@@ -44,7 +45,6 @@ const Dashboard: React.FC = () => {
       const stats = await fetchClusterStats(hosts[0]);
       
       if (stats) {
-        console.log('Received cluster stats:', stats); // Логируем полученные данные
         setClusterStats(stats);
         setMetricsHistory(prev => {
           const newHistory = [...prev, stats];
@@ -64,11 +64,6 @@ const Dashboard: React.FC = () => {
       }
     } catch (error) {
       console.error('Ошибка при обновлении метрик:', error);
-      toast({
-        title: "Ошибка соединения",
-        description: "Не удалось подключиться к OpenSearch кластеру",
-        variant: "destructive"
-      });
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +93,6 @@ const Dashboard: React.FC = () => {
             <Button 
               onClick={updateMetrics} 
               disabled={isLoading}
-              variant="outline"
             >
               {isLoading ? "Обновление..." : "Обновить метрики"}
             </Button>
@@ -136,13 +130,8 @@ const Dashboard: React.FC = () => {
               
               <Separator className="my-4" />
               
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold">Статистика узлов</h2>
-                <p className="text-sm text-muted-foreground">
-                  Всего узлов: {clusterStats.nodes.length} (данных: {clusterStats.health.numDataNodes})
-                </p>
-                <MetricsTable nodes={clusterStats.nodes} />
-              </div>
+              <h2 className="text-xl font-semibold">Статистика узлов</h2>
+              <MetricsTable nodes={clusterStats.nodes} />
               
               <Separator className="my-4" />
               

@@ -20,26 +20,26 @@ export interface ClusterHealth {
 export interface NodeStats {
   name: string;
   hostname: string;
-  cpu: number; // процент использования CPU
-  load1m: number; // нагрузка за 1 минуту
-  load5m: number; // нагрузка за 5 минут
-  load15m: number; // нагрузка за 15 минут
+  cpu: number;
+  load1m: number;
+  load5m: number;
+  load15m: number;
   memory: {
-    used: number; // в байтах
-    total: number; // в байтах
-    freePercent: number; // процент свободной памяти
+    used: number;
+    total: number;
+    freePercent: number;
   };
   jvm: {
-    uptime: number; // в миллисекундах
-    heapUsed: number; // в байтах
-    heapMax: number; // в байтах
-    heapPercent: number; // процент использования heap
+    uptime: number;
+    heapUsed: number;
+    heapMax: number;
+    heapPercent: number;
   };
   indices: {
-    docsCount: number; // количество документов
-    storeSize: number; // размер хранилища в байтах
-    indexingRate: number; // скорость индексирования
-    searchRate: number; // скорость поиска
+    docsCount: number;
+    storeSize: number;
+    indexingRate: number;
+    searchRate: number;
   };
 }
 

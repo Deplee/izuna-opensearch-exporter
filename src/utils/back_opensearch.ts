@@ -186,6 +186,7 @@ export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterSt
   }
 }
 
+
 // Вспомогательная функция для обработки CORS ошибок с более детальными сообщениями
 function handleCorsError(error: any, host: OpenSearchHost) {
   if (error instanceof TypeError && error.message.includes('CORS')) {
