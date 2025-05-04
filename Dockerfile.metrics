@@ -2,12 +2,18 @@ FROM node:18-alpine AS deps
 
 WORKDIR /app
 
+# Копирование package.json
+COPY package.json ./
+
 # Установка только express и prom-client без дополнительных зависимостей
-RUN npm install --no-package-lock --verbose --no-optional express@4.18.3 prom-client@15.1.0
+RUN npm install --no-package-lock --verbose --no-optional express@4.18.3 prom-client@15.1.0 axios@1.6.7
 
 # Production stage
 FROM node:18-alpine AS production
 WORKDIR /app
+
+# Копирование package.json
+COPY package.json ./
 
 # Копирование только production зависимостей
 COPY --from=deps /app/node_modules ./node_modules
