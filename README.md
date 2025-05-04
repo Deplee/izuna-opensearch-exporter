@@ -271,3 +271,9 @@ Total Size
 ```
 curl -vku "admin:admin" -XGET "https://172.22.217.113:9200/_cluster/stats?human&filter_path=indices.store.size" | jq .indices.store.size
 ```
+
+Nodes in Cluster Info
+
+```
+curl -kv -u admin:admin https://172.22.217.113:9200/_cat/nodes?v
+```

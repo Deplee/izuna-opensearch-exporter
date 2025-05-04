@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Backup Files
+src/pages/back_*
+src/components/back_*
+src/utils/back_*
+src/types/back_*
