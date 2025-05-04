@@ -2,11 +2,13 @@ FROM node:20-alpine AS deps
 
 WORKDIR /app
 
-# Копирование package.json и package-lock.json
-COPY package*.json ./
+# Копирование package.json
+COPY package.json ./
 
-# Установка только production зависимостей
-RUN npm install --omit=dev
+# Создание package-lock.json и установка production зависимостей
+RUN npm install && \
+    npm install --package-lock-only && \
+    npm install --omit=dev
 
 # Build stage
 FROM node:20-alpine AS builder
