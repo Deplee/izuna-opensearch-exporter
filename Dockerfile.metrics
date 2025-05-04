@@ -2,6 +2,9 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Установка TypeScript и ts-node глобально
+RUN npm install -g typescript ts-node
+
 # Копирование package.json и package-lock.json
 COPY package*.json ./
 
@@ -12,4 +15,4 @@ RUN npm install
 COPY . .
 
 # Запуск сервера метрик
-CMD ["npm", "run", "metrics"] 
+CMD ["ts-node", "src/metrics-server.ts"] 
