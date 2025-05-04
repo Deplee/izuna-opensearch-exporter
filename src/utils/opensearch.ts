@@ -136,65 +136,55 @@ export async function fetchNodeStats(host: OpenSearchHost): Promise<NodeStats[]>
 }
 
 // Функция для получения статистики кластера
-// export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterStats | null> {
-//   try {
-//     const health = await fetchClusterHealth(host);
-//     const nodes = await fetchNodeStats(host);
+export async function fetchClusterStats(host: OpenSearchHost): Promise<ClusterStats | null> {
+  try {
+    const health = await fetchClusterHealth(host);
+    const nodes = await fetchNodeStats(host);
     
-//     if (!health) {
-//       return null;
-//     }
-    
-//     // Запрос статистики по индексам
-//     const headers: HeadersInit = {
-//       'Content-Type': 'application/json'
-//     };
-    
-//     if (host.username && host.password) {
-//       const encodedCredentials = btoa(`${host.username}:${host.password}`);
-//       headers['Authorization'] = `Basic ${encodedCredentials}`;
-//     }
-    
-//     // Удалены credentials: 'include'
-//     const response = await fetch(`${host.url}/_stats`, {
-//       method: 'GET',
-//       headers,
-//       mode: 'cors',
-//     });
-    
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-    
-//     const indicesData = await response.json();
-    
-//     return {
-//       clusterName: indicesData._all?.indices?.['_all']?.primaries?.['_all']?.name ?? 'OpenSearch Cluster',
-//       health,
-//       nodes,
-//       indices: {
-//         count: indicesData._all?.indices?.['_all']?.primaries?.['_all']?.total ?? 0,
-//         shards: health.activeShards,
-//         docs: indicesData._all?.primaries?.docs?.count ?? 0,
-//         store: indicesData._all?.primaries?.store?.size_in_bytes ?? 0,
-//       }
-//     };
-//   } catch (error) {
-//     console.error('Ошибка при получении статистики кластера:', error);
-//     handleCorsError(error, host);
-//     return null;
-//   }
-// }
-  export const fetchClusterStats = async (host: string): Promise<any | null> => {
-    try {
-      const response = await fetch(`${host}/_nodes/stats`);
-      if (!response.ok) return null;
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching node stats:", error);
+    if (!health) {
       return null;
     }
-  };
+    
+    // Запрос статистики по индексам
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (host.username && host.password) {
+      const encodedCredentials = btoa(`${host.username}:${host.password}`);
+      headers['Authorization'] = `Basic ${encodedCredentials}`;
+    }
+    
+    // Удалены credentials: 'include'
+    const response = await fetch(`${host.url}/_stats`, {
+      method: 'GET',
+      headers,
+      mode: 'cors',
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const indicesData = await response.json();
+    
+    return {
+      clusterName: indicesData._all?.indices?.['_all']?.primaries?.['_all']?.name ?? 'OpenSearch Cluster',
+      health,
+      nodes,
+      indices: {
+        count: indicesData._all?.indices?.['_all']?.primaries?.['_all']?.total ?? 0,
+        shards: health.activeShards,
+        docs: indicesData._all?.primaries?.docs?.count ?? 0,
+        store: indicesData._all?.primaries?.store?.size_in_bytes ?? 0,
+      }
+    };
+  } catch (error) {
+    console.error('Ошибка при получении статистики кластера:', error);
+    handleCorsError(error, host);
+    return null;
+  }
+}
 
 
 // Вспомогательная функция для обработки CORS ошибок с более детальными сообщениями
