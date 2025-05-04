@@ -21,13 +21,13 @@
 
 2. Запустите контейнеры:
    ```bash
+   docker compose build
    docker compose up -d
    ```
 
 3. Доступ к следующим сервисам:
    - **Веб-интерфейс**: [http://localhost:8080](http://localhost:8080)
-   - **Prometheus**: [http://localhost:9090](http://localhost:9090)
-   - **OpenSearch Dashboards**: [http://localhost:5601](http://localhost:5601)
+   - **OpenSearch Cluster**: [http://localhost:9200](http://localhost:9200)
      - Имя пользователя: `admin`
      - Пароль: `admin`
 
@@ -35,14 +35,11 @@
 
 Docker Compose настройка включает следующие сервисы:
 
-- **Prometheus**: Сбор метрик и их хранение
-- **OpenSearch**: Продвинутый поисковый и аналитический движок
-- **OpenSearch Dashboards**: Пользовательский интерфейс для визуализации данных
-- **Веб-приложение**: Фронт-енд интерфейс для визуализации и управления
+- **Веб-приложение**: Frontend интерфейс для визуализации и управления
 
 ### Настройка
 
-- Конфигурация Prometheus находится в `./prometheus/prometheus.yml`
+- Конфигурация Prometheus находится в `./docker-setup/exporter/prometheus.yml`
 - Данные OpenSearch сохраняются в томе `opensearch-data`
 - Переменные окружения могут быть изменены в файле docker-compose.yml
 
@@ -284,3 +281,37 @@ Resources
 ```
 curl -vk -u admin:admin "https://172.22.217.113:9200/_nodes/stats/os,jvm?pretty"
 ```
+
+
+1. Основной стек:
+
+  * `TypeScript` (основной язык)
+  * `React` (фронтенд, интерфейс)
+  * `Next.js` (фреймворк для SSR/гибридных приложений)
+  * `Tailwind CSS` (стилизация)
+
+2. Ключевые зависимости
+
+  * `OpenSearch JS Client` (@opensearch-project/opensearch) — для запросов к кластеру
+  * `Axios` — HTTP-клиент
+  * `Prometheus`-совместимый экспорт метрик (ваш кастомный реализация)
+  * `shadcn/ui` — компоненты интерфейса (видно по структуре components/ui)
+
+3. Инфраструктура
+
+  * `Docker` (контейнеризация)
+  * `Docker Compose` (оркестрация для демо-развертывания)
+
+4. Особенности архитектуры
+
+  4.1 Модульная структура:
+
+  * `types/opensearch.ts` — типы для API OpenSearch
+  * `utils/prometheus.ts` — преобразование метрик в Prometheus-формат
+  * `components/MetricsTable.tsx` — таблица с данными узлов
+
+  4.2 Реализованный функционал:
+
+  * Парсинг статистики узлов (_nodes/stats)
+  * Конвертация в Prometheus-метрики
+  * Визуализация через React-компоненты
