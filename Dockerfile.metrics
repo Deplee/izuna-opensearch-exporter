@@ -5,27 +5,20 @@ WORKDIR /app
 # Копирование package.json
 COPY package.json ./
 
-# Создание package-lock.json и установка production зависимостей
-RUN npm install && \
-    npm install --package-lock-only && \
-    npm install --omit=dev
+# Установка только необходимых зависимостей
+RUN npm install express prom-client
 
 # Build stage
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Копирование package.json и package-lock.json
-COPY package*.json ./
-
-# Установка всех зависимостей для сборки
-RUN npm install
-
 # Копирование только серверной части
 COPY src/server ./src/server
-COPY tsconfig.json ./
+COPY tsconfig.metrics.json ./tsconfig.json
 
-# Сборка
-RUN npm run build
+# Установка TypeScript и компиляция
+RUN npm install typescript && \
+    npx tsc
 
 # Production stage
 FROM node:20-alpine AS production
@@ -37,7 +30,4 @@ COPY --from=deps /app/node_modules ./node_modules
 # Копирование собранного приложения
 COPY --from=builder /app/dist ./dist
 
-# Копирование package.json для запуска
-COPY package.json ./
-
-CMD ["node", "dist/server/metrics-server.js"]
+CMD ["node", "dist/metrics-server.js"]
