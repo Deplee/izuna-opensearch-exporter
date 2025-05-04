@@ -1,7 +1,7 @@
 // server.ts
 import express from 'express';
-import { fetchClusterStats } from './src/utils/opensearch';
-import { generatePrometheusMetricsOutput } from './src/api/metricsEndpoint';
+import { fetchClusterStats } from './src/utils/opensearch.js';
+import { generatePrometheusMetricsOutput } from './src/api/metricsEndpoint.js';
 
 const app = express();
 const port = 3001;  // Порт для сервера метрик
