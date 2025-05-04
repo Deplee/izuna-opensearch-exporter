@@ -1,24 +1,23 @@
-# Build stage
-FROM node:18-alpine AS deps
-WORKDIR /app
-COPY package.json ./
+FROM node:18-alpine AS build
 
-# Устанавливаем только необходимые пакеты одним RUN
-RUN npm install --no-package-lock express@4.18.3 prom-client@15.1.0 axios@1.6.7
-
-# Build stage
-FROM node:18-alpine AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+
+# Копирование файлов проекта
+COPY package*.json ./
+RUN npm install
+
 COPY . .
-RUN npm run build || true  # если build не нужен, можно убрать
+RUN npm run build
 
-# Production stage
-FROM node:18-alpine AS production
-WORKDIR /app
+FROM nginx:alpine
 
-COPY package.json ./
-COPY --from=deps /app/node_modules ./node_modules
-COPY src/server ./src/server
+# Копирование собранного приложения
+COPY --from=build /app/dist /usr/share/nginx/html
 
-CMD ["node", "src/server/app.js"]
+# Копирование конфигурации NGINX
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+# Запуск NGINX
+CMD ["nginx", "-g", "daemon off;"]

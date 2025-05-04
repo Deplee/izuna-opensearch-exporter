@@ -1,58 +1,8 @@
-version: '3.8'
-
+# version: '3.8' # - if docker compose not v2
 services:
   opensearch-exporter:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production
+    build: .
     container_name: opensearch-exporter
     ports:
       - "8080:80"
-    networks:
-      - app-network
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 256M
-
-  opensearch-exporter-metrics:
-    build:
-      context: .
-      dockerfile: Dockerfile.metrics
-      target: production
-    container_name: opensearch-exporter-metrics
-    ports:
-      - "9091:9090"
-    networks:
-      - app-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/metrics"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 256M
-
-networks:
-  app-network:
-    driver: bridge
