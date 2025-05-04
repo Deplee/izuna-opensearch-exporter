@@ -14,7 +14,8 @@ RUN apk add --no-cache nodejs npm
 # Копируем ВСЕ необходимые файлы для сервера метрик
 COPY --from=build /app/package*.json /app/
 COPY --from=build /app/server.js /app/
-COPY --from=build /app/src /app/src  # Копируем всю папку src
+# Копируем всю папку src
+COPY --from=build /app/src /app/src
 WORKDIR /app
 RUN npm install --production
 
