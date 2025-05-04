@@ -15,8 +15,8 @@
 #       # CORS настройки
 #       - "http.cors.enabled=true"
 #       - "http.cors.allow-origin=*"
-#       - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
-#       - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+      # - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+      # - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
 
 #       # Настройки single-node
 #       - "discovery.type=single-node"
@@ -59,6 +59,8 @@ services:
       - "plugins.security.ssl.transport.enabled=true"
       - "http.cors.enabled=true"
       - "http.cors.allow-origin=*"
+      - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
       - "cluster.name=opensearch-cluster"
       - "node.name=opensearch-node1"
       - "discovery.seed_hosts=opensearch-node1,opensearch-node2,opensearch-node3"
@@ -90,6 +92,8 @@ services:
       - "plugins.security.ssl.transport.enabled=true"
       - "http.cors.enabled=true"
       - "http.cors.allow-origin=*"
+      - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
       - "cluster.name=opensearch-cluster"
       - "node.name=opensearch-node2"
       - "discovery.seed_hosts=opensearch-node1,opensearch-node2,opensearch-node3"
@@ -119,6 +123,8 @@ services:
       - "plugins.security.ssl.transport.enabled=true"
       - "http.cors.enabled=true"
       - "http.cors.allow-origin=*"
+      - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
       - "cluster.name=opensearch-cluster"
       - "node.name=opensearch-node3"
       - "discovery.seed_hosts=opensearch-node1,opensearch-node2,opensearch-node3"
