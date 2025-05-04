@@ -3,7 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build  # Эта команда должна компилировать TS в JS
+# Эта команда должна компилировать TS в JS
+RUN npm run build
 
 # Финальный образ
 FROM nginx:alpine
@@ -12,8 +13,10 @@ FROM nginx:alpine
 RUN apk add --no-cache nodejs npm
 
 # Копируем скомпилированные JS файлы
-COPY --from=build /app/dist /usr/share/nginx/html  # Фронтенд
-COPY --from=build /app/build /app  # Бэкенд (если используется отдельная папка для компиляции)
+# Фронтенд
+COPY --from=build /app/dist /usr/share/nginx/html  
+# Бэкенд (если используется отдельная папка для компиляции)
+COPY --from=build /app/build /app
 COPY --from=build /app/package*.json /app/
 WORKDIR /app
 RUN npm install --production
