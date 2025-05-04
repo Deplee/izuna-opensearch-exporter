@@ -5,8 +5,8 @@ WORKDIR /app
 # Копирование package.json
 COPY package.json ./
 
-# Установка только необходимых зависимостей с конкретными версиями
-RUN npm install --verbose --no-package-lock express@4.18.3 prom-client@15.1.0
+# Установка только production зависимостей
+RUN npm install --production --no-package-lock express@4.18.3 prom-client@15.1.0
 
 # Production stage
 FROM node:18-alpine AS production
