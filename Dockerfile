@@ -2,7 +2,7 @@
 FROM node:18-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm install --verbose
 
 # Build stage
 FROM node:18-alpine AS builder
