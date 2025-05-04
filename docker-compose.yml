@@ -15,5 +15,5 @@ services:
     ports:
       - "9090:9090"
     environment:
-      - OPENSEARCH_URL=http://opensearch:9200
+      - OPENSEARCH_URL=http://opensearch-exporter:8080/metrics
     restart: unless-stopped
