@@ -20,8 +20,9 @@ COPY package*.json ./
 # Установка всех зависимостей для сборки
 RUN npm install
 
-# Копирование исходного кода
-COPY . .
+# Копирование только серверной части
+COPY src/server ./src/server
+COPY tsconfig.json ./
 
 # Сборка
 RUN npm run build
