@@ -1,8 +1,8 @@
+# version: '3.8' # - if docker compose not v2
 services:
   opensearch-exporter:
     build: .
     container_name: opensearch-exporter
     ports:
-      - "8080:80"       # Фронтенд
-      - "3001:3001"     # Метрики
+      - "8080:80"
     restart: unless-stopped
