@@ -3,8 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-# Эта команда должна компилировать TS в JS
-RUN npm run build
+# Компилируем и TS и собираем фронтенд
+RUN npm run build && tsc --outDir ./dist-server
 
 # Финальный образ
 FROM nginx:alpine
@@ -12,11 +12,11 @@ FROM nginx:alpine
 # Устанавливаем Node.js
 RUN apk add --no-cache nodejs npm
 
-# Копируем скомпилированные JS файлы
+# Копируем скомпилированные файлы
 # Фронтенд
-COPY --from=build /app/dist /usr/share/nginx/html  
-# Бэкенд (если используется отдельная папка для компиляции)
-COPY --from=build /app/build /app
+COPY --from=build /app/dist /usr/share/nginx/html
+# Бэкенд
+COPY --from=build /app/dist-server /app
 COPY --from=build /app/package*.json /app/
 WORKDIR /app
 RUN npm install --production
