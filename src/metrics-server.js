@@ -1,5 +1,5 @@
-import express from 'express';
-import { Registry, Gauge } from 'prom-client';
+const express = require('express');
+const { Registry, Gauge } = require('prom-client');
 
 const app = express();
 const register = new Registry();
@@ -26,4 +26,4 @@ app.get('/metrics', async (req, res) => {
 const port = process.env.METRICS_PORT || 9090;
 app.listen(port, () => {
     console.log(`Metrics server listening on port ${port}`);
-});
+}); 

@@ -2,9 +2,6 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Установка TypeScript
-RUN npm install -g typescript
-
 # Копирование package.json и package-lock.json
 COPY package*.json ./
 
@@ -14,8 +11,5 @@ RUN npm install
 # Копирование исходного кода
 COPY . .
 
-# Компиляция TypeScript
-RUN tsc -p tsconfig.metrics.json
-
 # Запуск сервера метрик
-CMD ["node", "dist/metrics-server.js"]
+CMD ["node", "src/metrics-server.js"]
