@@ -9,7 +9,8 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
+# Production stage
+FROM nginx:alpine AS production
 
 # Копирование собранного приложения
 COPY --from=build /app/dist /usr/share/nginx/html
