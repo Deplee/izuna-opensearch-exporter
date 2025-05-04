@@ -277,3 +277,10 @@ Nodes in Cluster Info
 ```
 curl -kv -u admin:admin https://172.22.217.113:9200/_cat/nodes?v
 ```
+
+
+Resources
+
+```
+curl -vk -u admin:admin "https://172.22.217.113:9200/_nodes/stats/os,jvm?pretty"
+```
