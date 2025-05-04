@@ -1,16 +1,66 @@
-# version: '3'  - if docker compose not v2
+# # version: '3'  - if docker compose not v2
+# services:
+#   opensearch:
+#     image: opensearchproject/opensearch:2.11.1
+#     container_name: opensearch
+#     environment:
+#       - bootstrap.memory_lock=true
+#       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+
+#       # Настройки безопасности
+#       - "DISABLE_SECURITY_PLUGIN=false"
+#       - "plugins.security.ssl.http.enabled=true"
+#       - "plugins.security.ssl.transport.enabled=true"
+
+#       # CORS настройки
+#       - "http.cors.enabled=true"
+#       - "http.cors.allow-origin=*"
+#       - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+#       - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+
+#       # Настройки single-node
+#       - "discovery.type=single-node"
+
+#       # Демо-конфигурация (используйте false для production)
+#       - "DISABLE_INSTALL_DEMO_CONFIG=false"
+#       - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=admin" # Стандартный пароль
+
+#     ulimits:
+#       memlock:
+#         soft: -1
+#         hard: -1
+#       nofile:
+#         soft: 65536
+#         hard: 65536
+#     volumes:
+#       - opensearch-data:/usr/share/opensearch/data
+#     ports:
+#       - "9200:9200"
+#       - "9600:9600"
+#     networks:
+#       - opensearch-net
+
+# volumes:
+#   opensearch-data:
+
+# networks:
+#   opensearch-net:
+
+# version: '3'
 services:
-  opensearch:
+  opensearch-node1:
     image: opensearchproject/opensearch:2.11.1
-    container_name: opensearch
+    container_name: opensearch-node1
     environment:
       - bootstrap.memory_lock=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
 
-      # Настройки безопасности
+      # Настройки безопасности (для кластера)
       - "DISABLE_SECURITY_PLUGIN=false"
       - "plugins.security.ssl.http.enabled=true"
       - "plugins.security.ssl.transport.enabled=true"
+      # Укажите имена других нод для безопасной связи
+      - "plugins.security.nodes_dn=['CN=opensearch-node2','CN=opensearch-node3']"
 
       # CORS настройки
       - "http.cors.enabled=true"
@@ -18,8 +68,10 @@ services:
       - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
       - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
 
-      # Настройки single-node
-      - "discovery.type=single-node"
+      # Настройки кластера
+      - "discovery.seed_hosts=opensearch-node2,opensearch-node3" # Начальные узлы для обнаружения
+      - "cluster.initial_master_nodes=opensearch-node1,opensearch-node2,opensearch-node3" # Начальные мастер-ноды
+      - "cluster.name=my-opensearch-cluster" # Имя кластера
 
       # Демо-конфигурация (используйте false для production)
       - "DISABLE_INSTALL_DEMO_CONFIG=false"
@@ -33,24 +85,25 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - opensearch-data:/usr/share/opensearch/data
+      - opensearch-data1:/usr/share/opensearch/data
     ports:
-      - "9200:9200"
-      - "9600:9600"
+      - "9200:9200" # Порт для доступа к API
+      - "9600:9600" # Порт для мониторинга
     networks:
       - opensearch-net
 
-  opensearch-1:
+  opensearch-node2:
     image: opensearchproject/opensearch:2.11.1
-    container_name: opensearch-1
+    container_name: opensearch-node2
     environment:
       - bootstrap.memory_lock=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
 
-      # Настройки безопасности
+      # Настройки безопасности (для кластера)
       - "DISABLE_SECURITY_PLUGIN=false"
       - "plugins.security.ssl.http.enabled=true"
       - "plugins.security.ssl.transport.enabled=true"
+      - "plugins.security.nodes_dn=['CN=opensearch-node1','CN=opensearch-node3']"
 
       # CORS настройки
       - "http.cors.enabled=true"
@@ -58,12 +111,13 @@ services:
       - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
       - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
 
-      # Настройки single-node
-      - "discovery.type=single-node"
+      # Настройки кластера
+      - "discovery.seed_hosts=opensearch-node1,opensearch-node3"
+      - "cluster.initial_master_nodes=opensearch-node1,opensearch-node2,opensearch-node3"
+      - "cluster.name=my-opensearch-cluster"
 
       # Демо-конфигурация (используйте false для production)
       - "DISABLE_INSTALL_DEMO_CONFIG=false"
-      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=admin" # Стандартный пароль
 
     ulimits:
       memlock:
@@ -73,15 +127,53 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - opensearch-data:/usr/share/opensearch/data
-    ports:
-      - "9201:9200"
-      - "9601:9600"
+      - opensearch-data2:/usr/share/opensearch/data
+    networks:
+      - opensearch-net
+
+  opensearch-node3:
+    image: opensearchproject/opensearch:2.11.1
+    container_name: opensearch-node3
+    environment:
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+
+      # Настройки безопасности (для кластера)
+      - "DISABLE_SECURITY_PLUGIN=false"
+      - "plugins.security.ssl.http.enabled=true"
+      - "plugins.security.ssl.transport.enabled=true"
+      - "plugins.security.nodes_dn=['CN=opensearch-node1','CN=opensearch-node2']"
+
+      # CORS настройки
+      - "http.cors.enabled=true"
+      - "http.cors.allow-origin=*"
+      - "http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+
+      # Настройки кластера
+      - "discovery.seed_hosts=opensearch-node1,opensearch-node2"
+      - "cluster.initial_master_nodes=opensearch-node1,opensearch-node2,opensearch-node3"
+      - "cluster.name=my-opensearch-cluster"
+
+      # Демо-конфигурация (используйте false для production)
+      - "DISABLE_INSTALL_DEMO_CONFIG=false"
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data3:/usr/share/opensearch/data
     networks:
       - opensearch-net
 
 volumes:
-  opensearch-data:
+  opensearch-data1:
+  opensearch-data2:
+  opensearch-data3:
 
 networks:
   opensearch-net:
