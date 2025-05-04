@@ -40,6 +40,6 @@ const MetricsEndpoint: React.FC = () => {
       {metricsText}
     </pre>
   );
-};
+});
 
 export default MetricsEndpoint;
