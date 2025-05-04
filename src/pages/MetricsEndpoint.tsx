@@ -33,13 +33,19 @@ const MetricsEndpoint: React.FC = () => {
     };
 
     getMetrics();
-  
+    
+    // Set up a regular update
+    const intervalId = setInterval(getMetrics, 60000); // Update every minute
+    
+    return () => clearInterval(intervalId);
+  }, [hosts]);
+
   // This will render plain text for Prometheus to scrape
   return (
     <pre style={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
       {metricsText}
     </pre>
   );
-});
+};
 
 export default MetricsEndpoint;
