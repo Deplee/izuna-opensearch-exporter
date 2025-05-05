@@ -1,3 +1,4 @@
+# version: '3.8' # - if docker compose not v2
 services:
   opensearch-exporter:
     build: .
@@ -5,15 +6,3 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
-
-  metrics-server:
-    build:
-      context: .
-      dockerfile: Dockerfile.metrics
-    container_name: metrics-server
-    ports:
-      - "3000:3000"
-    restart: unless-stopped
-    volumes:
-      - ./metrics.txt:/app/metrics.txt
-  
