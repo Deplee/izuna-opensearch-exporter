@@ -22,6 +22,7 @@ const MetricsEndpoint: React.FC = () => {
         if (stats) {
           const formattedMetrics = generatePrometheusMetricsOutput(stats);
           setMetricsText(formattedMetrics);
+          sendMetricsToServer(formattedMetrics);
         } else {
           setMetricsText('# Failed to fetch metrics from OpenSearch\n');
         }
@@ -40,7 +41,8 @@ const MetricsEndpoint: React.FC = () => {
   }, [hosts]);
 
   const sendMetricsToServer = async (metricsText: string) => {
-    await fetch('http://localhost:3000/metrics', {
+    console.log('Sending metrics to server');
+    await fetch('http://metrics-server:3000/metrics', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: metricsText,
