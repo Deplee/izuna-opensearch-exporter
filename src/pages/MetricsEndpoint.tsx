@@ -2,20 +2,10 @@ import React, { useEffect } from 'react';
 import { useConfig } from '@/contexts/ConfigContext';
 import { fetchClusterStats } from '@/utils/opensearch';
 import { generatePrometheusMetricsOutput } from '@/api/metricsEndpoint';
-import { ClusterStats } from '@/types/opensearch';
 
 const MetricsEndpoint: React.FC = () => {
   const { hosts } = useConfig();
   const [metricsText, setMetricsText] = React.useState<string>('# Loading metrics...\n');
-
-  const sendMetricsToServer = async (metricsText: string) => {
-    console.log('Sending metrics to server');
-    await fetch('http://metrics-server:3000/metrics', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: metricsText,
-    });
-  };
 
   useEffect(() => {
     const getMetrics = async () => {
@@ -27,11 +17,9 @@ const MetricsEndpoint: React.FC = () => {
       try {
         // Get metrics from first host
         const stats = await fetchClusterStats(hosts[0]);
-        
         if (stats) {
           const formattedMetrics = generatePrometheusMetricsOutput(stats);
           setMetricsText(formattedMetrics);
-          sendMetricsToServer(formattedMetrics);
         } else {
           setMetricsText('# Failed to fetch metrics from OpenSearch\n');
         }
@@ -42,10 +30,8 @@ const MetricsEndpoint: React.FC = () => {
     };
 
     getMetrics();
-    
     // Set up a regular update
     const intervalId = setInterval(getMetrics, 60000); // Update every minute
-    
     return () => clearInterval(intervalId);
   }, [hosts]);
 

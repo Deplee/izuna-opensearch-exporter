@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +7,7 @@ import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 import MetricsEndpoint from "@/pages/MetricsEndpoint";
 import { ConfigProvider } from "@/contexts/ConfigContext";
+import MetricsUpdater from './MetricsUpdater';
 
 const queryClient = new QueryClient();
 
@@ -24,6 +24,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <MetricsUpdater />
       </TooltipProvider>
     </ConfigProvider>
   </QueryClientProvider>
