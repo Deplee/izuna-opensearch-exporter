@@ -8,6 +8,15 @@ const MetricsEndpoint: React.FC = () => {
   const { hosts } = useConfig();
   const [metricsText, setMetricsText] = React.useState<string>('# Loading metrics...\n');
 
+  const sendMetricsToServer = async (metricsText: string) => {
+    console.log('Sending metrics to server');
+    await fetch('http://metrics-server:3000/metrics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: metricsText,
+    });
+  };
+
   useEffect(() => {
     const getMetrics = async () => {
       if (hosts.length === 0) {
@@ -39,15 +48,6 @@ const MetricsEndpoint: React.FC = () => {
     
     return () => clearInterval(intervalId);
   }, [hosts]);
-
-  const sendMetricsToServer = async (metricsText: string) => {
-    console.log('Sending metrics to server');
-    await fetch('http://metrics-server:3000/metrics', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: metricsText,
-    });
-  };
 
   // This will render plain text for Prometheus to scrape
   return (
