@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useConfig } from '@/contexts/ConfigContext';
 import { fetchClusterStats } from '@/utils/opensearch';
@@ -39,6 +38,14 @@ const MetricsEndpoint: React.FC = () => {
     
     return () => clearInterval(intervalId);
   }, [hosts]);
+
+  const sendMetricsToServer = async (metricsText: string) => {
+    await fetch('http://localhost:3000/metrics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: metricsText,
+    });
+  };
 
   // This will render plain text for Prometheus to scrape
   return (

@@ -1,0 +1,10 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY metrics-server.js ./
+RUN npm install express
+
+EXPOSE 3000
+
+CMD ["node", "metrics-server.js"]
